@@ -15,12 +15,17 @@ use Inertia\Inertia;
 |
 */
 
+// Define the admin routes
+Route::namespace('App\Http\Controllers\Admin')->prefix('/admin')->group(function () {
+    Route::get('/edit-welcome-page', 'EditWelcomePageController@showEditWelcomePageForm')
+        ->name('admin.edit-welcome-page.show');
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'welcomeInformations' => \App\Models\WelcomeInformation::cachedFirstEntry(),
     ]);
 });
 
