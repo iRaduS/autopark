@@ -19,6 +19,10 @@ use Inertia\Inertia;
 Route::namespace('App\Http\Controllers\Admin')->prefix('/admin')->group(function () {
     Route::get('/edit-welcome-page', 'EditWelcomePageController@showEditWelcomePageForm')
         ->name('admin.edit-welcome-page.show');
+    Route::delete('/edit-welcome-page', 'EditWelcomePageController@deleteMessage')
+        ->name('admin.edit-welcome-page.delete-message');
+    Route::put('/edit-welcome-page', 'EditWelcomePageController@updateData')
+        ->name('admin.edit-welcome-page.update');
 });
 
 Route::get('/', function () {

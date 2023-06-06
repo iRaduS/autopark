@@ -24,6 +24,7 @@ watchEffect(() => {
 
 onBeforeMount(() => {
     randomIndexForArray.value = Math.floor(Math.random() * props.welcomeInformations.messages.length);
+    console.log(props.welcomeInformations.messages);
     changeableText.value = props.welcomeInformations.messages[randomIndexForArray.value];
 });
 </script>
