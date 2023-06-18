@@ -51,6 +51,14 @@ const logout = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+
+                                <NavLink>
+                                    Autovehicles of {{ $page.props.auth.user.current_team.name  }}
+                                </NavLink>
+
+                                <NavLink>
+                                    Report autovehicles of {{ $page.props.auth.user.current_team.name  }}
+                                </NavLink>
                             </div>
                         </div>
 
@@ -76,7 +84,7 @@ const logout = () => {
                                                 Administration Tools
                                             </div>
 
-                                            <DropdownLink>
+                                            <DropdownLink :href="route('tickets.show')">
                                                 Support Tickets
                                             </DropdownLink>
 
