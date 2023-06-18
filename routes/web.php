@@ -25,6 +25,23 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('/admin')->group(function
         ->name('admin.edit-welcome-page.update');
 });
 
+Route::namespace('App\Http\Controllers')->prefix('tickets')->group(function () {
+    Route::get('/', 'TicketController@showTicketsListPage')
+        ->name('tickets.show');
+    Route::get('/{ticket}', 'TicketController@showTicketPage')
+        ->name('ticket.show');
+    Route::delete('/{ticket}', 'TicketController@deleteTicket')
+        ->name('ticket.delete');
+    Route::post('/', 'TicketController@createTicket')
+        ->name('tickets.create');
+    Route::post('/{ticket}/comments', 'TicketController@createTicketComment')
+        ->name('tickets.comments.create');
+    Route::delete('/tickets/comments/{ticketComment}', 'TicketController@deleteTicketComment')
+        ->name('tickets.comments.delete');
+    Route::patch('/tickets/{ticket}/status', 'TicketController@editTicketStatus')
+        ->name('tickets.status');
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
