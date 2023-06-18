@@ -2,25 +2,19 @@
 import { onBeforeMount, ref, watchEffect } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
+    welcomeInformations: Object,
 });
 
-const availableChangeableTexts = [
-    'The first platform to manage your autopark.',
-    'Take care of your autopark.'
-];
-let descriptionString = ref('Whether you operate a small or a large-scale autovehicle park, our application offers powerful features to enhance efficiency, maximize revenue, and improve customer satisfaction.');
-let presentationImage = ref('https://images.unsplash.com/photo-1543465077-db45d34b88a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2012&q=80');
 let randomIndexForArray = ref(0);
 let changeableText = ref('');
+
 watchEffect(() => {
     const interval = setInterval(() => {
-        randomIndexForArray.value = (randomIndexForArray.value + 1) % availableChangeableTexts.length;
-        changeableText.value = availableChangeableTexts[randomIndexForArray.value];
+        randomIndexForArray.value = (randomIndexForArray.value + 1) % props.welcomeInformations.messages.length;
+        changeableText.value = props.welcomeInformations.messages[randomIndexForArray.value];
     }, 5000);
 
     return () => {
@@ -29,8 +23,9 @@ watchEffect(() => {
 });
 
 onBeforeMount(() => {
-    randomIndexForArray.value = Math.floor(Math.random() * availableChangeableTexts.length);
-    changeableText.value = availableChangeableTexts[randomIndexForArray.value];
+    randomIndexForArray.value = Math.floor(Math.random() * props.welcomeInformations.messages.length);
+    console.log(props.welcomeInformations.messages);
+    changeableText.value = props.welcomeInformations.messages[randomIndexForArray.value];
 });
 </script>
 
@@ -47,7 +42,7 @@ onBeforeMount(() => {
                         </div>
                     </div>
                     <h1 class="mt-24 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:mt-10 sm:text-6xl">Autopark <span class="font-semibold dark:text-yellow-600 text-indigo-600 uppercase" aria-hidden="true">Web</span></h1>
-                    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-400">{{ descriptionString }}</p>
+                    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-400">{{ welcomeInformations.description }}</p>
                     <div class="mt-10 flex items-center gap-x-6">
                         <div v-if="canLogin" class="sm:fixed sm:top-0 sm:left-0 p-6 text-right z-10">
                             <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="text-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Dashboard</Link>
@@ -62,7 +57,7 @@ onBeforeMount(() => {
                 </div>
             </div>
             <div class="relative hidden lg:block lg:col-span-5 lg:-mr-8 xl:absolute xl:inset-0 xl:left-1/2 xl:mr-0">
-                <img class="aspect-[3/2] w-full bg-gray-50 object-cover lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" :src="presentationImage" alt="" />
+                <img class="aspect-[3/2] w-full bg-gray-50 object-cover lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" :src="welcomeInformations.image_url" alt="" />
             </div>
         </div>
     </div>

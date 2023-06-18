@@ -55,6 +55,43 @@ const logout = () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <!-- Admin Panel Dropdown -->
+                            <div class="ml-3 relative">
+                                <Dropdown align="right" width="60">
+                                    <template #trigger>
+                                        <span class="inline-flex rounded-md">
+                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-500 dark:text-yellow-400 bg-white dark:bg-gray-800 hover:text-indigo-700 dark:hover:text-yellow-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                                Admin Panel
+
+                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </template>
+
+                                    <template #content>
+                                        <div class="w-60">
+                                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                                Administration Tools
+                                            </div>
+
+                                            <DropdownLink>
+                                                Support Tickets
+                                            </DropdownLink>
+
+                                            <DropdownLink>
+                                                Check Logs
+                                            </DropdownLink>
+
+                                            <DropdownLink :href="route('admin.edit-welcome-page.show')">
+                                                Edit "Welcome" Page
+                                            </DropdownLink>
+                                        </div>
+                                    </template>
+                                </Dropdown>
+                            </div>
+
                             <div class="ml-3 relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
