@@ -13,9 +13,9 @@ class Team extends JetstreamTeam
     use HasFactory;
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'personal_team' => 'boolean',
@@ -24,7 +24,7 @@ class Team extends JetstreamTeam
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
         'name',
@@ -34,7 +34,7 @@ class Team extends JetstreamTeam
     /**
      * The event map for the model.
      *
-     * @var array<string, class-string>
+     * @var array
      */
     protected $dispatchesEvents = [
         'created' => TeamCreated::class,

@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,48 +12,81 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::namespace('\App\Http\Controllers\Admin')->group(function () {
+        Route::get('/users/{editable}', 'UsersController@edit')
+            ->name('admin.user.edit')
+            ->middleware('can:edit user');
+        Route::get('/users', 'UsersController@index')
+            ->name('admin.users')
+            ->middleware('can:general users');
+        Route::post('/users', 'UsersController@store')
+            ->name('admin.users.store')
+            ->middleware('can:create user');
+        Route::patch('/users/{user}/restore', 'UsersController@restore')
+            ->name('admin.user.restore')
+            ->middleware('can:edit status');
+        Route::put('/users/{user}/update', 'UsersController@update')
+            ->name('admin.user.update')
+            ->middleware('can:edit user');
+        Route::patch('/users/{user}/roles', 'UsersController@updateRoles')
+            ->name('admin.user.roles')
+            ->middleware('can:edit role');
+        Route::delete('/users/{user}', 'UsersController@destroy')
+            ->name('admin.user.delete')
+            ->middleware('can:edit status');
+        Route::delete('/users/{user}/force', 'UsersController@forceDestroy')
+            ->name('admin.user.force')
+            ->middleware('can:delete user');
 
-// Define the admin routes
-Route::namespace('App\Http\Controllers\Admin')->prefix('/admin')->group(function () {
-    Route::get('/edit-welcome-page', 'EditWelcomePageController@showEditWelcomePageForm')
-        ->name('admin.edit-welcome-page.show');
-    Route::delete('/edit-welcome-page', 'EditWelcomePageController@deleteMessage')
-        ->name('admin.edit-welcome-page.delete-message');
-    Route::put('/edit-welcome-page', 'EditWelcomePageController@updateData')
-        ->name('admin.edit-welcome-page.update');
-});
+        Route::get('/logs', 'LogsController@index')
+            ->name('admin.logs')
+            ->middleware('can:general logs'); // @todo
 
-Route::namespace('App\Http\Controllers')->prefix('tickets')->group(function () {
-    Route::get('/', 'TicketController@showTicketsListPage')
-        ->name('tickets.show');
-    Route::get('/{ticket}', 'TicketController@showTicketPage')
-        ->name('ticket.show');
-    Route::delete('/{ticket}', 'TicketController@deleteTicket')
-        ->name('ticket.delete');
-    Route::post('/', 'TicketController@createTicket')
-        ->name('tickets.create');
-    Route::post('/{ticket}/comments', 'TicketController@createTicketComment')
-        ->name('tickets.comments.create');
-    Route::delete('/tickets/comments/{ticketComment}', 'TicketController@deleteTicketComment')
-        ->name('tickets.comments.delete');
-    Route::patch('/tickets/{ticket}/status', 'TicketController@editTicketStatus')
-        ->name('tickets.status');
+        Route::get('/employees', 'EmployeeController@index')
+            ->name('admin.employee.index')
+            ->middleware('can:general employees', 'remember'); //@todo
+        Route::post('/employees', 'EmployeeController@store')
+            ->name('admin.employee.store')
+            ->middleware('can:create employee'); //@todo
+        Route::patch('/employees/{employee}/reactivate', 'EmployeeController@reactivate')
+            ->name('admin.employee.reactivate')
+            ->middleware('can:update employee');
+        Route::patch('/employees/{employee}/deactivate', 'EmployeeController@deactivate')
+            ->name('admin.employee.deactivate')
+            ->middleware('can:update employee');
+
+        Route::get('/auto', 'AutoController@index')
+            ->name('admin.auto.index')
+            ->middleware('can:general auto');
+        Route::post('/auto', 'AutoController@store')
+            ->name('admin.auto.store')
+            ->middleware('can:general auto');
+        Route::delete('/auto/{auto}', 'AutoController@remove')
+            ->name('admin.auto.remove')
+            ->middleware('can:general auto');
+        Route::get('/auto/{auto}', 'AutoController@edit')
+            ->name('admin.auto.edit')
+            ->middleware('can:general auto');
+        Route::patch('/auto/itp/{auto}', 'AutoController@updateItp')
+            ->name('admin.auto.update-itp')
+            ->middleware('can:general auto');
+        Route::patch('/auto/insurance/{auto}', 'AutoController@updateInsurance')
+            ->name('admin.auto.update-insurance')
+            ->middleware('can:general auto');
+        Route::patch('/auto/upload/{auto}', 'AutoController@uploadDocuments')
+            ->name('admin.auto.upload-documents')
+            ->middleware('optimizeImages', 'can:general auto');
+        Route::patch('/auto/remove/{auto}', 'AutoController@deleteDocuments')
+            ->name('admin.auto.delete-documents', 'can:general auto');
+
+        Route::get('/raports', 'RaportController@index')
+            ->name('admin.raport.index');
+        Route::get('/raports/automobiles', 'RaportController@autoReport')
+            ->name('admin.raport.auto');
+    });
 });
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'welcomeInformations' => \App\Models\WelcomeInformation::cachedFirstEntry(),
-    ]);
-});
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    return response()->redirectTo('/user/profile');
 });

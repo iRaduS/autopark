@@ -18,12 +18,12 @@ class TeamFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'name' => $this->faker->unique()->company(),
+            'name' => $this->faker->unique()->company,
             'user_id' => User::factory(),
             'personal_team' => true,
         ];

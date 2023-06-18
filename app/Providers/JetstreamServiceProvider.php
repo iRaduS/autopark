@@ -16,16 +16,20 @@ class JetstreamServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     *
+     * @return void
      */
-    public function register(): void
+    public function register()
     {
         //
     }
 
     /**
      * Bootstrap any application services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
         $this->configurePermissions();
 
@@ -40,22 +44,24 @@ class JetstreamServiceProvider extends ServiceProvider
 
     /**
      * Configure the roles and permissions that are available within the application.
+     *
+     * @return void
      */
-    protected function configurePermissions(): void
+    protected function configurePermissions()
     {
         Jetstream::defaultApiTokenPermissions(['read']);
 
-        Jetstream::role('admin', 'Administrator', [
+        Jetstream::role('admin', __('Administrator'), [
             'create',
             'read',
             'update',
             'delete',
-        ])->description('Administrator users can perform any action.');
+        ])->description(__('Administrator users can perform any action.'));
 
-        Jetstream::role('editor', 'Editor', [
+        Jetstream::role('editor', __('Editor'), [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description(__('Editor users have the ability to read, create, and update.'));
     }
 }
