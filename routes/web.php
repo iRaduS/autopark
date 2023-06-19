@@ -84,6 +84,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ->name('admin.raport.index');
         Route::get('/raports/automobiles', 'RaportController@autoReport')
             ->name('admin.raport.auto');
+
+        Route::get('/locations', 'LocationController@index')
+            ->name('admin.locations.index')
+            ->middleware('remember', 'can:general locations');
+        Route::post('/locations', 'LocationController@store')
+            ->name('locations.store')
+            ->middleware('can:create location');
+        Route::delete('/locations/{location}', 'LocationController@delete')
+            ->name('locations.delete')
+            ->middleware('can:delete location');
     });
 });
 

@@ -19,6 +19,9 @@
                                 <jet-nav-link v-if="$page.props.user.check['general employees']" :href="route('admin.employee.index')" :active="route().current('admin.employee.index')">
                                     Angajați
                                 </jet-nav-link>
+                                <jet-nav-link v-if="$page.props.user.check['general locations']" :href="route('admin.locations.index')" :active="route().current('admin.locations.index')">
+                                    Locații
+                                </jet-nav-link>
                                 <jet-nav-link v-if="$page.props.user.check['general auto']" :href="route('admin.auto.index')" :active="route().current('admin.auto.index')">
                                     Automobile
                                 </jet-nav-link>
@@ -153,6 +156,9 @@
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="$page.props.user.check['general employees']" :href="route('admin.employee.index')" :active="route().current('admin.employee.index')">
                             Angajați
+                        </jet-responsive-nav-link>
+                        <jet-responsive-nav-link v-if="$page.props.user.check['general locations']" :href="route('admin.locations.index')" :active="route().current('admin.locations.index')">
+                            Locații
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="$page.props.user.check['general auto']" :href="route('admin.auto.index')" :active="route().current('admin.auto.index')">
                             Automobile
