@@ -28,6 +28,9 @@
                                 <jet-nav-link v-if="$page.props.user.check['general reports']" :href="route('admin.raport.index')" :active="route().current('admin.raport.index')">
                                     Rapoarte
                                 </jet-nav-link>
+                                <jet-nav-link v-if="$page.props.user.check['general departures']" :href="route('admin.departure.index')" :active="route().current('admin.departure.index')">
+                                    Foi de deplasare
+                                </jet-nav-link>
                             </div>
                         </div>
 
@@ -165,6 +168,9 @@
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="$page.props.user.check['general reports']" :href="route('admin.raport.index')" :active="route().current('admin.raport.index')">
                             Rapoarte
+                        </jet-responsive-nav-link>
+                        <jet-responsive-nav-link v-if="$page.props.user.check['general departures']" :href="route('admin.departure.index')" :active="route().current('admin.departure.index')">
+                            Foi de deplasare
                         </jet-responsive-nav-link>
                     </div>
 

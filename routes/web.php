@@ -94,6 +94,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::delete('/locations/{location}', 'LocationController@delete')
             ->name('locations.delete')
             ->middleware('can:delete location');
+
+        Route::get('/departures', 'DepartureController@index')
+            ->name('admin.departure.index')
+            ->middleware('can:general departures');
+        Route::post('/departures', 'DepartureController@save')
+            ->name('admin.departure.store')
+            ->middleware('can:general departures');
+        Route::delete('/departures/{ticket}', 'DepartureController@delete')
+            ->name('admin.departure.delete')
+            ->middleware('can:general departures');
+        Route::get('/departures/{ticket}', 'DepartureController@download')
+            ->name('admin.departure.download')
+            ->middleware('can:general departures');
     });
 });
 
